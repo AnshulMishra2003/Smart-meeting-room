@@ -7,25 +7,7 @@
   
   <display-name>Smart Meeting Room Booking</display-name>
   
-  <servlet>
-    <servlet-name>BookRoomServlet</servlet-name>
-    <servlet-class>com.example.meeting.BookRoomServlet</servlet-class>
-  </servlet>
-  
-  <servlet>
-    <servlet-name>ViewBookingsServlet</servlet-name>
-    <servlet-class>com.example.meeting.ViewBookingsServlet</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>BookRoomServlet</servlet-name>
-    <url-pattern>/bookRoom</url-pattern>
-  </servlet-mapping>
-  
-  <servlet-mapping>
-    <servlet-name>ViewBookingsServlet</servlet-name>
-    <url-pattern>/viewBookings</url-pattern>
-  </servlet-mapping>
+  <!-- Rely on @WebServlet annotations; no explicit servlet mappings -->
   
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
