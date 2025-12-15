@@ -59,7 +59,8 @@ public class BookRoomServlet extends HttpServlet {
 
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, room);
-            ps.setString(2, date);
+            // Bind as SQL Date to avoid implicit cast issues
+            ps.setDate(2, java.sql.Date.valueOf(java.time.LocalDate.parse(date)));
             ps.setString(3, slot);
             ps.setString(4, bookedBy);
 

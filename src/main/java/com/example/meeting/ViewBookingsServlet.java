@@ -48,7 +48,7 @@ public class ViewBookingsServlet extends HttpServlet {
 
             if (filterDate != null) {
                 sql = "SELECT booking_date, room_name, time_slot, booked_by " +
-                        "FROM room_bookings WHERE booking_date = ? " +
+                        "FROM room_bookings WHERE booking_date = ?::date " +
                         "ORDER BY booking_date, time_slot";
                 ps = con.prepareStatement(sql);
                 ps.setDate(1, java.sql.Date.valueOf(filterDate));
