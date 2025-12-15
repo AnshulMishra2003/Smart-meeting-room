@@ -1,0 +1,103 @@
+/* Elegant, professional theme */
+:root {
+  --bg: #0f172a;            /* slate-900 */
+  --panel: #111827;         /* gray-900 */
+  --panel-2: #1f2937;       /* gray-800 */
+  --text: #e5e7eb;          /* gray-200 */
+  --muted: #9ca3af;         /* gray-400 */
+  --primary: #3b82f6;       /* blue-500 */
+  --primary-700: #1d4ed8;   /* blue-700 */
+  --accent: #22c55e;        /* green-500 */
+  --danger: #ef4444;        /* red-500 */
+  --border: #374151;        /* gray-700 */
+  --shadow: rgba(0,0,0,0.35);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: linear-gradient(180deg, var(--bg), #0b1226);
+  color: var(--text);
+}
+
+.app {
+  max-width: 960px;
+  margin: 40px auto;
+  padding: 24px;
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px var(--shadow);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.title {
+  font-size: 24px;
+  font-weight: 700;
+}
+.nav a {
+  color: var(--muted);
+  text-decoration: none;
+  margin-right: 12px;
+}
+.nav a:hover { color: var(--text); }
+
+hr.sep { border: none; height: 1px; background: var(--border); margin: 16px 0; }
+
+.button {
+  appearance: none;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 600;
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+.button:hover { background: var(--primary-700); }
+.button.secondary { background: transparent; border: 1px solid var(--border); color: var(--text); }
+.button.danger { background: var(--danger); }
+
+.form { display: grid; gap: 12px; }
+.label { font-size: 13px; color: var(--muted); }
+.input, select, .select, .date {
+  width: 100%;
+  padding: 10px 12px;
+  background: #0b1220;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.table th, .table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.table thead th {
+  background: #0b1220;
+  text-align: left;
+  font-weight: 600;
+  color: var(--muted);
+}
+.table tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+.notice { padding: 10px 12px; border-radius: 10px; }
+.notice.success { background: rgba(34,197,94,0.15); border: 1px solid var(--accent); }
+.notice.error { background: rgba(239,68,68,0.15); border: 1px solid var(--danger); }
+
+.footer { margin-top: 24px; font-size: 12px; color: var(--muted); text-align: center; }
