@@ -13,8 +13,13 @@ RUN apt-get update -y \
 	&& rm -rf ${CATALINA_HOME}/webapps/* \
 	&& sed -i 's/<Server port="8005"/<Server port="-1"/' ${CATALINA_HOME}/conf/server.xml
 
-# Deploy the WAR as ROOT
-COPY target/demo.war ${CATALINA_HOME}/webapps/ROOT.war
+# Deploy the WAR as ROOT - extract it to ensure it's ready before Tomcat starts
+COPY target/demo.war /tmp/demo.war
+RUN cd ${CATALINA_HOME}/webapps \
+	&& mkdir -p ROOT \
+	&& cd ROOT \
+	&& jar -xf /tmp/demo.war \
+	&& rm /tmp/demo.war
 
 EXPOSE 8080
 
