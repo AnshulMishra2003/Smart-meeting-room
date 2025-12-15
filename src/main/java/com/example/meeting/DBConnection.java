@@ -7,7 +7,7 @@ public class DBConnection {
 
     public static Connection getConnection() throws Exception {
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
+        Class.forName("org.postgresql.Driver");
 
         // Read from environment variables; fallback to localhost for dev
         String dbUrl = System.getenv("DB_URL");
@@ -16,13 +16,13 @@ public class DBConnection {
 
         // Fallback for local development
         if (dbUrl == null || dbUrl.isEmpty()) {
-            dbUrl = "jdbc:mysql://localhost:3306/meeting_db";
+            dbUrl = "jdbc:postgresql://localhost:5432/meeting_db";
         }
         if (dbUser == null || dbUser.isEmpty()) {
-            dbUser = "root";
+            dbUser = "postgres";
         }
         if (dbPass == null || dbPass.isEmpty()) {
-            dbPass = "Mysql@123";
+            dbPass = "postgres";
         }
 
         System.out.println("Connecting to DB: " + dbUrl);

@@ -26,8 +26,8 @@ public class ViewBookingsServlet extends HttpServlet {
         try (Connection con = DBConnection.getConnection()) {
 
             // Cleanup: remove bookings older than 7 days from today
-            try (PreparedStatement clean = con.prepareStatement(
-                    "DELETE FROM room_bookings WHERE booking_date < DATE_SUB(CURDATE(), INTERVAL 7 DAY)")) {
+                try (PreparedStatement clean = con.prepareStatement(
+                    "DELETE FROM room_bookings WHERE booking_date < CURRENT_DATE - INTERVAL '7 days'")) {
                 clean.executeUpdate();
             }
 
@@ -35,15 +35,15 @@ public class ViewBookingsServlet extends HttpServlet {
             PreparedStatement ps;
 
             if (selectedDate != null && !selectedDate.isEmpty()) {
-                sql = "SELECT booking_date, room_name, time_slot, booked_by " +
-                      "FROM room_bookings WHERE booking_date = ? AND booking_date >= CURDATE() " +
-                      "ORDER BY booking_date, time_slot";
+                    sql = "SELECT booking_date, room_name, time_slot, booked_by " +
+                        "FROM room_bookings WHERE booking_date = ? AND booking_date >= CURRENT_DATE " +
+                        "ORDER BY booking_date, time_slot";
                 ps = con.prepareStatement(sql);
                 ps.setString(1, selectedDate);
             } else {
-                sql = "SELECT booking_date, room_name, time_slot, booked_by " +
-                      "FROM room_bookings WHERE booking_date >= CURDATE() " +
-                      "ORDER BY booking_date ASC, time_slot";
+                    sql = "SELECT booking_date, room_name, time_slot, booked_by " +
+                        "FROM room_bookings WHERE booking_date >= CURRENT_DATE " +
+                        "ORDER BY booking_date ASC, time_slot";
                 ps = con.prepareStatement(sql);
             }
 
