@@ -1,7 +1,8 @@
 FROM eclipse-temurin:25-jdk
 
 ENV CATALINA_HOME=/opt/tomcat \
-	TOMCAT_VERSION=10.1.28
+	TOMCAT_VERSION=10.1.28 \
+	PATH=/opt/tomcat/bin:$PATH
 
 # Install Tomcat 10.1 on JDK 25
 RUN apt-get update -y \
@@ -18,4 +19,5 @@ COPY target/demo.war ${CATALINA_HOME}/webapps/ROOT.war
 
 EXPOSE 8080
 
-CMD ["${CATALINA_HOME}/bin/catalina.sh", "run"]
+# Use PATH so CMD doesn't rely on env var expansion in JSON form
+CMD ["catalina.sh", "run"]
