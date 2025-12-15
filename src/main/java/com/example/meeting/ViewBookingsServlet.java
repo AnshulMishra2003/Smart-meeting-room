@@ -22,6 +22,18 @@ public class ViewBookingsServlet extends HttpServlet {
 
         List<String[]> bookings = new ArrayList<>();
         String selectedDate = req.getParameter("date");
+        java.time.LocalDate filterDate = null;
+        if (selectedDate != null && !selectedDate.isEmpty()) {
+            try {
+                filterDate = java.time.LocalDate.parse(selectedDate);
+            } catch (Exception pe) {
+                req.setAttribute("error", "Invalid date format. Please use YYYY-MM-DD.");
+                req.setAttribute("bookings", bookings);
+                req.setAttribute("selectedDate", selectedDate);
+                req.getRequestDispatcher("viewBookings.jsp").forward(req, res);
+                return;
+            }
+        }
 
         try (Connection con = DBConnection.getConnection()) {
 
@@ -34,14 +46,14 @@ public class ViewBookingsServlet extends HttpServlet {
             String sql;
             PreparedStatement ps;
 
-            if (selectedDate != null && !selectedDate.isEmpty()) {
-                    sql = "SELECT booking_date, room_name, time_slot, booked_by " +
-                        "FROM room_bookings WHERE booking_date = ? AND booking_date >= CURRENT_DATE " +
+            if (filterDate != null) {
+                sql = "SELECT booking_date, room_name, time_slot, booked_by " +
+                        "FROM room_bookings WHERE booking_date = ? " +
                         "ORDER BY booking_date, time_slot";
                 ps = con.prepareStatement(sql);
-                ps.setString(1, selectedDate);
+                ps.setDate(1, java.sql.Date.valueOf(filterDate));
             } else {
-                    sql = "SELECT booking_date, room_name, time_slot, booked_by " +
+                sql = "SELECT booking_date, room_name, time_slot, booked_by " +
                         "FROM room_bookings WHERE booking_date >= CURRENT_DATE " +
                         "ORDER BY booking_date ASC, time_slot";
                 ps = con.prepareStatement(sql);
@@ -64,7 +76,10 @@ public class ViewBookingsServlet extends HttpServlet {
 
         } catch (Exception e) {
             e.printStackTrace();
-            res.getWriter().println("Error loading bookings");
+            req.setAttribute("error", "Error loading bookings. Please try again.");
+            req.setAttribute("bookings", bookings);
+            req.setAttribute("selectedDate", selectedDate);
+            req.getRequestDispatcher("viewBookings.jsp").forward(req, res);
         }
     }
 }
