@@ -3,7 +3,6 @@ package com.example.meeting;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -67,10 +66,17 @@ public class BookRoomServlet extends HttpServlet {
             ps.executeUpdate();
             res.sendRedirect("success.jsp");
 
-        } catch (SQLIntegrityConstraintViolationException e) {
-            req.setAttribute("error", "Room already booked for this slot!");
-            req.getRequestDispatcher("bookRoom.jsp").forward(req, res);
-
+        } catch (java.sql.SQLException e) {
+            // Handle duplicate key/unique constraint violations (PostgreSQL SQLState 23505)
+            String sqlState = e.getSQLState();
+            String msg = e.getMessage();
+            if ("23505".equals(sqlState) || (msg != null && msg.toLowerCase().contains("unique constraint"))) {
+                req.setAttribute("error", "Room already booked for this slot!");
+                req.getRequestDispatcher("bookRoom.jsp").forward(req, res);
+                return;
+            }
+            e.printStackTrace();
+            res.getWriter().println("Server Error");
         } catch (Exception e) {
             e.printStackTrace();
             res.getWriter().println("Server Error");
